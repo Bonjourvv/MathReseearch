@@ -1,0 +1,1 @@
+Reconstructed the main steps of Kolmogorov’s proof that an L1 function can have Fourier partial sums diverging almost everywhere.A rather rudimentary mathematical study conducted alongside faculty at Université Paris-Est Créteil.
