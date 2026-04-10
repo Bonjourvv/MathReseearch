@@ -1,0 +1,483 @@
+\documentclass{beamer}
+\usepackage[english]{babel}
+\usepackage{ctex, hyperref}
+\usepackage[T1]{fontenc}
+
+% other packages
+\usepackage{latexsym,amsmath,xcolor,multicol,booktabs,calligra}
+\usepackage{graphicx,pstricks,listings,stackengine}
+
+\useoutertheme[footline=authorinstitutetitle,subsection=false]{smoothbars}
+\useinnertheme{circles}
+
+\xdefinecolor{njupt}{HTML}{213F99}  %RGB#213F99
+\setbeamercolor{footline}{bg=njupt}
+\setbeamercolor{frametitle}{bg=njupt,fg=white}
+\setbeamercolor{title}{bg=njupt}
+\setbeamerfont{frametitle}{size=\large}
+
+\setbeamercolor{block title}{bg=njupt,fg=white}
+\setbeamercolor*{block title example}{use={normal text,example text},bg=white,fg=njupt}
+
+\setbeamertemplate{blocks}[rounded][shadow=false]
+\setbeamercolor{block body}{bg=gray!20}
+
+\addtobeamertemplate{block begin}{}{\setlength{\textwidth}{1.1\textwidth}}
+
+
+\author{lewei and lo}
+\title{Divergence of Fourier series of $ \mathcal{L}^1  $ function}
+
+\institute{UPEC}
+\date{May 7, 2024}
+
+\usepackage{NJUPT}
+
+
+\setbeamertemplate{theorem begin}{\begin{block}{{\textbf{Definition}}}}
+    \setbeamertemplate{theorem end}{\end{block}}
+\newtheorem{remark}{Remark}
+\newtheorem{proposition}{Proposition}
+
+\setbeamertemplate{theorem begin}{\begin{block}{{\textbf{\inserttheoremname}}}}
+\setbeamertemplate{theorem end}{\end{block}}
+
+
+% defs
+\def\cmd#1{\texttt{\color{red}\footnotesize $\backslash$#1}}
+\def\env#1{\texttt{\color{blue}\footnotesize #1}}
+\definecolor{deepblue}{rgb}{0,0,0.5}
+\definecolor{deepred}{rgb}{0.6,0,0}
+\definecolor{deepgreen}{rgb}{0,0.5,0}
+\definecolor{halfgray}{gray}{0.55}
+
+\lstset{
+    basicstyle=\ttfamily\small,
+    keywordstyle=\bfseries\color{deepblue},
+    emphstyle=\ttfamily\color{deepred},    % Custom highlighting style
+    stringstyle=\color{deepgreen},
+    numbers=left,
+    numberstyle=\small\color{halfgray},
+    rulesepcolor=\color{red!20!green!20!blue!20},
+    frame=shadowbox,
+}
+
+
+\begin{document}
+
+\kaishu
+\begin{frame}
+    \titlepage
+    
+\end{frame}
+
+\begin{frame}
+    \tableofcontents[sectionstyle=show,subsectionstyle=show/shaded/hide,subsubsectionstyle=show/shaded/hide]
+\end{frame}
+
+
+\section{Introduction}
+\begin{frame}
+    \begin{block}{Definition} 
+        \begin{enumerate}
+            \item  The fourier series is defined by $ \sum\limits_{-\infty}^{\infty} \hat{f}(n)e^{2\pi inx/L}$ where  $ N^{th} $ fourier coefficient is given by $ \hat{f}(n) =  \frac{1}{L} \int_{L}f(x)e^{\frac{-2\pi inx}{L}}$
+        \end{enumerate}
+    \end{block}
+    \begin{block}{theorem}
+        There exist a $ \mathcal{L} ^1 $ function who's fourier series diverge almost everywhere. 
+    \end{block}
+\end{frame}
+
+
+\section{Basic properties}
+\begin{frame}{Definitions }
+\begin{block}{Definitions} 
+    \begin{enumerate}
+       
+        \item  The partial sum $ S_N(f)(x)=\sum\limits_{-N}^{N}\hat{f}(n)e^{2\pi inx/L} $
+        \item Dirichlet kernel $ D_N(x)=\sum\limits_{-N}^{N}e^{inx} \textcolor{red}{= \frac{sin(N+\frac{1}{2})x}{\sin(\frac{x}{2})}}$.  The kernel functions are periodic with period $ 2\pi $
+        
+    \end{enumerate}
+\end{block}
+
+   \begin{proposition}
+    \begin{align*}
+        S_N(f)(x)&=\sum\limits_{-N}^{N}\hat{f}(n)e^{inx}\\
+        &=(f*D_N)(x)
+       \end{align*}
+   \end{proposition}
+\end{frame}
+
+
+
+\section{Proof part one}
+
+\subsection{A sequence of functions $ \phi_n $}
+
+\begin{frame}{The construction of $ \phi _n$}
+    
+
+We want to proof the existence of a sequence of functions $ \phi _n  \subset  \mathcal{L} ^1[0,2\pi] $ which satisfying the following properties:
+\begin{block}{c1,c2,c3}
+    \begin{enumerate}
+        \item\label{C1}$ \phi_n(x)\geqslant 0 $ and $ \int_{0}^{2\pi}\phi_n(x)dx=2 $
+        \item The partial sum of Fourier series of $ \phi_n(x) $ is bounded
+        \item\label{C3} For every function $ \phi_n(x) $ there exist $ M_n  \in \mathbb{R}  $, a set $ E_n \subset [0,2\pi] $, and $ q_n \in \mathbb{N}  $ such that 
+            \begin{enumerate}
+                \item $ \lim\limits_{n\rightarrow +\infty}M_n = +\infty$
+                \item $ \lim\limits_{n\rightarrow +\infty}\left\lvert E_n \right\rvert = 2 \pi $
+                \item $ \forall x \in E_n, \exists q_n \in \mathbb{N}  $ such that for $ j_n \leqslant q_n $
+                \[ \left\lvert S_{j_n}\phi_n(x)\geqslant M_n \right\rvert \]
+            \end{enumerate}
+        \end{enumerate}
+\end{block}
+
+\end{frame}
+
+
+\begin{frame}{c1,c2}
+    We take a increasing sequence with odd natural numbers.
+\[ \lambda_1=1 \ \  \lambda_2,\dots,\lambda_n \] 
+
+then we define a sequence of natural numbers $ m_k $ s.t
+\[
+    \begin{cases}
+    m_1=n   \\
+    2m_k+1 =\lambda_k(2n+1) 
+\end{cases} 
+\]
+
+a sequence of real numbers $ A_k $
+\[
+\begin{cases}
+    A_k &=\frac{4\pi k}{2n+1}\quad 1 \leqslant k \leqslant n \\
+    A_n&= 2\pi- \frac{2\pi}{2n+1}
+\end{cases}
+\]
+a sequence of interval 
+
+\[ \Delta_k=[A_k-\frac{1}{m_k^2},A_k+\frac{1}{m^2_k}] \]
+\end{frame}
+\begin{frame}
+
+    \begin{block}{\textbf{Lemma}} 
+        $ \Delta_k   $ satisfies
+        \begin{enumerate}
+            \item $ \Delta_k$ mutually disjoint
+            \item $ \Delta_k \subset [0,2\pi] $
+        \end{enumerate}
+    \end{block}
+        Now let's define a sequence of intervals $ {\sigma_k}_{2 \leqslant k \leqslant n} $
+        \begin{block}{Definition}
+            \[ \sigma_k=[A_{k-1}+\frac{2}{n^2},A_k-\frac{2}{n^2}] \]
+        \end{block}
+        \begin{block}{Lemma}
+            \begin{enumerate}
+                \item $ \sigma_k $ is strictly between $ \Delta_{k-1} $  and $ \Delta_k $
+                \item $ \lim\limits_{n\rightarrow \infty} |\cup_{k=1}^n\sigma_k|= 2\pi  $
+            \end{enumerate}
+        \end{block}
+    
+       
+
+    
+\end{frame}
+
+\begin{frame}{we define $ \phi_n(x) $}
+    \begin{block}{\textbf{Definition of }$ \phi_n(x) $} 
+        \begin{align}
+            \phi_n(x) =
+            \begin{cases}
+                \frac{m_k^2}{n}& \text{if } x\in \Delta_k \quad 1 \leqslant k \leqslant n \\
+                0 & \text{if } x \in [0,2\pi]\backslash \cup_{k=1}^n \Delta_k
+            \end{cases}
+            \end{align}
+    \end{block}
+
+
+    we now have 
+
+\begin{enumerate}
+    \item $ \phi_n(x)\geqslant 0 $
+    \item $ \int_{0}^{2\pi}\frac{m_k^2}{n}dx = \sum_{k=1}^{n}\frac{m_k^2}{n}\frac{2}{m_k^2}=2 $
+    \item $\phi_n(x) $ $ 2\pi $ periodic also integrable.
+\end{enumerate}
+
+So condition 1 holds.\par
+Condition 2 is immediate since $ \phi_n(x) $ is a piecewise constant function.\par
+\end{frame}
+
+
+
+
+
+
+ 
+
+
+
+
+
+\subsection{Dealing with details: two integrals.}
+
+\begin{frame}{The beginning of the most difficult part}
+    By the proposition of convolution and Dirichlet kernel we get the partial sum of $ \phi_n $ with term $ m_k $
+    \begin{block}{}
+        It is clear to see that 
+        \begin{align*}
+            S_{m_k}(\phi_n)&=\frac{1}{2\pi}\int_{0}^{2\pi}\phi_n(\alpha)\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha\\
+            &=\frac{1}{2\pi}\sum_{s=1}^{k-1}\int_{\Delta_s}\phi_n(\alpha)\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha \\
+            &+ \frac{1}{2\pi}\sum_{s=k}^{n}\int_{\Delta_s}\phi_n(\alpha)\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha \quad \\
+            &=I_1+I_2 \ \ \text{(we will estimate them) }
+        \end{align*}
+       
+    \end{block}
+
+\end{frame}
+
+\begin{frame}{A piecewise function}
+    We define  $ \phi_n^{(s)} $, whose intergal will represent the integral on a segment $ \Delta_s $
+    \begin{block}{}
+        \begin{align*}
+            \frac{1}{2\pi}\int_{\Delta_s}\phi_n(\alpha)\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha 
+            &=\frac{1}{2\pi}\int_{0}^{2\pi}\phi_n^{(s)}\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha\\
+            &= S_{m_k}(\phi_n^{(s)})
+        \end{align*}
+    \end{block}
+    Now consider the partial sum $ S_{m_k}(\phi_n^{(s)}) $ where $ x \in \sigma_k $.\par
+    Assume we have already defined $ \lambda_n $, thus we define $ m_k $, we will discuss the choice of $ m_k $ later.\par 
+
+\end{frame}
+
+\begin{frame}{$ 1 \leqslant s \leqslant k-1 $}
+        Notice that, for any $ x \in \sigma_k $ and $ \alpha \in \Delta_s $, $ x $ and $ \alpha $ belong to two disjointed intervals,so we have:
+\[ \exists \epsilon >0 \text{ s.t } |\alpha-x|\geqslant \epsilon \]
+    consequently, \[ \frac{1}{\sin\frac{1}{2}(\alpha-x)} \] is a continuous function of $ \alpha  $, so this function is integrable, by the Riemann-Lebesgue lemma:
+\[\lim_{|m_k|\rightarrow \infty}S_{m_k}(\phi_n^{(s)}) = 0 \] 
+So we can choose that $ m_k $ big enough,which imply $ \lambda_k $ big enough grand to make $ |I_1|<1 $
+
+
+
+\end{frame}
+
+
+\begin{frame}{$ I_2(s \geqslant k) $ separation}
+    \begin{block}{}
+    \begin{align*}
+        S_{m_k}(\phi_n^{(s)})&=\frac{1}{2\pi}\int_{\Delta_s}\frac{m_s^2}{n}\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha \\
+        &- \frac{1}{\pi}\int_{\Delta_s}\frac{m_s^2}{n}\frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)}\mathrm{d}\alpha\\
+        &+\frac{1}{2\pi}\int_{\Delta_s}\frac{m_s^2}{n}\frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)}\mathrm{d}\alpha\\ 
+        &= \frac{1}{2\pi}\int_{\Delta_s}\frac{m_s^2}{n}\left[\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}   - \frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)} \right]\mathrm{d}\alpha \\
+        &+\frac{1}{2\pi}\int_{\Delta_s}\frac{m_s^2}{n}\frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)}\mathrm{d}\alpha\\
+        &=J_1+J_2
+    \end{align*}
+\end{block}
+\end{frame}
+
+
+\begin{frame}{$ J_1(s \geqslant k) $}
+    \begin{remark}
+        \begin{enumerate}
+            \item  $|D_N'(x)|=|\sum\limits_{-N}^{N}ine^{inx}| \leqslant N^2$
+        \item For all $ \alpha \in \Delta_s $, we have $ |A_s-\alpha|\leqslant \frac{1}{m_s^2} $ by the definition of $ \Delta_s $
+    \end{enumerate}
+    \end{remark}
+    by using those two remarks, we take the mean value theorem,
+    \begin{block}{}
+        $ | \frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}   - \frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)}| \leqslant |A_s-\alpha||m_k^2| \leqslant \frac{m_k^2}{m_s^2}\leqslant 1 $
+    \end{block}
+    where the first term is the derivative between points $ \alpha -x  $ and $ A_s-x $
+\end{frame}
+\begin{frame}{The boundary of $|J_1| $}
+    So now we look back at $ J_1 $,
+
+\[ |J_1|\leqslant \frac{1}{2\pi}\int_{\Delta_s}|\frac{m_s^2}{n}\left(\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}   - \frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)} \right)| \mathrm{d}\alpha \]
+\[ \leqslant \frac{1}{2\pi}\int_{\Delta_s}\frac{m_s^2}{n}\mathrm{d}\alpha \leqslant \frac{1}{2\pi}\frac{m_k^2}{n}\frac{2}{m_k^2}=\frac{\tau}{n}  \quad \text{ with } |\tau|<1\] 
+\end{frame}
+
+
+\begin{frame}{We use the periodic for estimating $ J_2 $}
+    \begin{block}{Remark:The periodic of the function sin }
+        We can find that 
+    \[ \frac{2m_k+1}{2}(A_s-A_k)=\frac{4\pi(s-k)}{2n+1}\frac{2m_k+1}{2}=2\pi(s-k)\lambda_k \]
+    so that 
+    \[ \sin\frac{2m_k+1}{2}(A_s-x)=\sin\left[\frac{2m_k+1}{2}(A_s-x)-\frac{2m_k+1}{2}(A_s-A_k)\right]\]
+    \[ =\sin\frac{2m_k+1}{2}(A_k-x) \]
+    \end{block}
+\end{frame}
+
+
+
+\begin{frame}{$ J_2 $}
+    \begin{align*}
+        J_2&= \frac{1}{2\pi}\int_{\Delta_s}\frac{m_s^2}{n}\frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)}\mathrm{d}\alpha\\
+        &=\frac{1}{2\pi}\frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)}\int_{\Delta_s}\frac{m_s^2}{n}\mathrm{d}\alpha\\
+        &=\frac{1}{2\pi}\frac{2}{n}\sin\left(\frac{2m_k+1}{2}(A_k-x) \right)\frac{1}{\sin\frac{1}{2}(A_s-x)}\\
+        &= \frac{1}{n\pi}\sin\left(\frac{2m_k+1}{2}(A_k-x) \right)\frac{1}{\sin\frac{1}{2}(A_s-x)}
+    \end{align*}
+\end{frame}
+
+
+\begin{frame}{Finally we can look back at $ I_2 $}
+    \begin{block}{$ I_2 $}
+        \begin{align*}
+            I_2=\sum_{s=k}^{n}(J_1+J_2)=\frac{1}{n\pi}\sin\left(\frac{2m_k+1}{2}(A_k-x) \right)\sum_{s=k}^{n}\frac{1}{\sin\frac{1}{2}(A_s-x)}+C \\
+            \quad \quad \text{where |C| < 1}
+        \end{align*}
+    \end{block}
+
+    \begin{remark}
+    
+        For all $\ x \in \sigma_k$,we have 
+        \[ 0<A_s-x<A_s-A_{k-1}=\frac{4\pi}{2n+1}(s-k+1)<\frac{2\pi}{n}(s-k+1) \]
+    \end{remark}
+\end{frame}
+
+\begin{frame}
+    by the remark  we can find that 
+\[ \frac{1}{n\pi}\sum_{s=k}^{n}\frac{1}{\sin\frac{1}{2}(A_s-x)} \geqslant \frac{1}{n\pi}\sum_{s=k}^{n}\frac{n}{\pi(s-k+1)}=\frac{1}{\pi^2}\sum_{s=k}^{n}\frac{1}{s-k+1} \]\[=\frac{1}{\pi^2}\sum_{r=1}^{n-k+1}\frac{1}{r} \geqslant \textcolor{red}{ \frac{1}{\pi^2}\ln(n-k+2) }\] 
+
+
+so 
+\[ I_2 \geqslant \frac{1}{\pi^2}\sin\left(\frac{2m_k+1}{2}(A_k-x) \right)\ln(n-k+2)-2  \quad \quad \forall x \in \sigma_k, \ \ 2 \leqslant k \leqslant n\] 
+The partial sum equal to $ I_1 +I_2 = I_1+ \sum_{s=k}^{n}(J_1+J_2)$ and we have $ I_1 < 1$, and also $J_1 < 1 $, so $\sum_{s=k}^{n} J_2 $ is the main bound.Then $ | S_{m_k}(\phi_n)|\geqslant \frac{1}{\pi^2}|\sin(m_k +\frac{1}{2})(A_k-x)|\ln(n-k+2) -2 $\par
+\end{frame}
+
+
+\begin{frame}{The sets $ E_n $}
+    We take $ k \leqslant n - \sqrt{n} $, then
+
+\[  | S_{m_k}(\phi_n)| \geqslant \frac{1}{2\pi^2}|\sin(m_k +\frac{1}{2})(A_k-x)|\ln n-2\]
+
+We set \textcolor{red}{$E_n= \bigcup_{2 \leqslant k \leqslant n-\sqrt{n}}E_n^{(k)} $}
+where \textcolor{blue}{$E_n^{(k)}=\left\{ x: x \in \sigma_k \ \ \text{ and } \ |\sin(m_k +\frac{1}{2})(A_k-x)| \geqslant \frac{2\pi^2}{\sqrt{\ln n}}\right\}$}\par
+————————————————\par
+If we choose $ m_k $ large enough 
+
+$ mes\left\{x: x \in \left[ A_{k-1},A_k \right], \ \  |\sin(m_k +\frac{1}{2})(A_k-x)| < \frac{2\pi^2}{\sqrt{\ln n}}\right\}=\mathcal{O}(\frac{1}{n\sqrt{\ln n}})$
+
+so we have $ mes\  E_n^{(k)} = mes \ \sigma_k- \mathcal{O}(\frac{1}{n\sqrt{n}}) \quad \quad as \ \ n \rightarrow \infty$
+
+Thus 
+\end{frame}
+
+\begin{frame}
+    \[ mes\ E_n= \sum_{2 \leqslant k \leqslant n- \sqrt{n}}mes\ \sigma_k- \mathcal{O}(\frac{1}{\sqrt{\ln n}}) = 2\pi - \mathbf{o}  (1) \]
+which imply that 
+
+\[ mes \ E_n=2\pi \ \ \ \ as \  \ n \rightarrow \infty \]
+So finally we obtain 
+\begin{enumerate}
+    \item $ | S_{m_k}(\phi_n)| \geqslant \sqrt{\ln n } -2 = M_n$,  where $ M_n >0 $, $ M_n \rightarrow \infty $ as $ n \rightarrow \infty $
+    \item $q_n=m_n$
+\end{enumerate}
+
+\end{frame}
+
+
+
+\section{Proof part two}
+\begin{frame}{Existence of an $ \mathcal{L}^1  $  function with a.e divergent series}
+    
+$ \phi_n $ has already been constructed, so now we define an increasing sequence of natural numbers $ n_k $ such that:
+\begin{enumerate}
+    \item $ \frac{1}{\sqrt{M_{n_k}}}<\frac{1}{2^k} $  $\Rightarrow \sum_{k=1}^{\infty}\frac{1}{\sqrt{M_{n_k}}}< 1 $ 
+    \item If $ B_n = \sup_{N \geqslant 0}|S_N\phi_n(x)|$, then $ \sum_{i=1}^{k-1}B_{n_i}<\frac{1}{2}\sqrt{M_{n_k}} $
+    \item $ 2q_{n_i}+1 \leqslant \frac{\sqrt{M_{n_k}}}{2^k} $ $ \forall i < k  $
+\end{enumerate} 
+
+\begin{block}{}
+    \[ \sum_{i=1}^{\infty}\frac{1}{\sqrt{M_{n_i}}}\int_{0}^{2\pi}\phi_{n_i} (x) = \sum_{i=1}^{\infty}\frac{2}{\sqrt{M_{n_i}}}<2\sum_{i=1}^{\infty}\frac{1}{2^k} < 2\]
+\end{block}
+from Beppo Levi’s lemma ,this function of series converge almost everywhere on $ [0,2\pi] $ to some function $ \Phi(x) $
+
+\end{frame}
+
+
+\begin{frame}{Function $\Phi$}
+
+    \begin{block}{\textbf{Definition}} 
+        \[ \Phi(x)= \sum_{i=1}^{\infty}\frac{1}{\sqrt{M_{n_i}}}\phi_{n_i} (x)\]
+    \end{block}
+
+    Its partial sum 
+    \begin{block}{}
+        
+
+    \[ S_N(\Phi(x))=\sum_{-N}^{N}\frac{1}{2\pi}e^{inx}\int_{0}^{2\pi}\Phi(x)e^{-iny}\mathrm{d}y  \]
+    \[ =\sum_{i=1}^{\infty}\frac{1}{\sqrt{M_{n_i}}}S_N(\phi_{n_i}(x))\]
+\end{block}
+We choose a natural number $ j_{n_k} $ and a point $ x\in E_{n_k} $, and let us consider the Fourier sums corresponding to $ N=j_{n_k} $
+
+\end{frame}
+
+\begin{frame}{The boundary of $ \Phi $}
+    \begin{block}{}
+        \begin{align*}
+            |S_{j_{n_k}}(\Phi(x))|&=|\sum_{i<k}\frac{1}{\sqrt{M_{n_i}}}S_{j_{n_k}}(\phi_{n_i}(x))+\sum_{i>k}\frac{1}{\sqrt{M_{n_i}}}S_{j_{n_k}}(\phi_{n_i}(x))\\
+            &+\frac{1}{\sqrt{M_{n_i}}}S_{j_{n_k}}(\phi_{n_i}(x))|\\
+            &=|L_1+L_2+L_3|\\
+            &\geqslant |L_3| -|L_2+L_1|
+        \end{align*}
+    \end{block}
+
+    by using the condition we just defined:
+    \begin{block}{}
+        
+        $ |L_1|= \sum_{i<k}\frac{1}{\sqrt{M_{n_i}}}S_{j_{n_k}}(\phi_{n_i}(x)) \leqslant \sum_{i<k}\frac{1}{\sqrt{M_{n_i}}}\sup|S_{j_{n_k}}\left(\phi_{n_i}\left(x\right)\right)| \leqslant \sum_{i=1}^{k-1}\frac{B_{n_i}}{\sqrt{M_{n_i}}}$
+$<\sum_{i=1}^{k-1}B_{n_i}<\frac{1}{2}\sqrt{M_{n_k}}$
+    \end{block}
+\end{frame}
+
+\begin{frame}{The boundary of $ \Phi $}
+    \begin{block}{}
+        \[ |L_2|= \sum_{i>k}\frac{1}{\sqrt{M_{n_i}}}|S_{j_{n_k}}(\phi_{n_i}(x))|\leqslant \sum_{i>k}\frac{1}{\sqrt{M_{n_i}}}(\frac{1}{2}+q_{n_k})\frac{1}{2\pi}\int_{0}^{2\pi}|\phi_{n_i}(x)|\mathrm{d}x\]
+\[ = \sum_{i>k}\frac{1+2q_{n_k}}{2\sqrt{M_{n_i}}}\frac{1}{\pi}\leqslant \frac{1}{\pi}\sum_{i>k}\frac{1}{2^i}<\sum_{i>k}\frac{1}{2^i}<\frac{1}{2^k}\]
+\[ |L_3|= \frac{1}{\sqrt{M_{n_i}}}S_{j_{n_k}}(\phi_{n_i}(x)) \overset{C(\ref{C3})(3)}{\geqslant } \sqrt{M_{n_k}} \]
+
+    \end{block}
+    Finally we get
+    \[ S_{j_{n_k}}(\Phi(x))|\geqslant \frac{1}{2}\sqrt{M_{n_k}}-\frac{1}{2} \]
+    which holds for all $ x\in E_{n_k} $.\par
+\end{frame}
+\begin{frame}{The measure of $ E $}
+    Now let $ E= \limsup\limits_{k} E_{n_k}  $，which can also be expressed $ E=\bigcap\limits_{j=1}^{\infty} \bigcup\limits\limits_{k=j}^{\infty}  E_{n_k} $, then:
+
+\[ 2\pi \geqslant \bigcup\limits\limits_{k=j}^{\infty}  |E_{n_k}|  \geqslant \lim\limits_l|E_{n_l}| \overset{C(\ref{C3})(2)}{=} 2\pi \Rightarrow \bigcup\limits\limits_{k=j}^{\infty} | E_{n_k}|=2\pi \ \forall k\]
+Then 
+\[ |E| = |\bigcap\limits_{j=1}^{\infty} \bigcup\limits\limits_{k=j}^{\infty}  E_{n_k}|=2\pi\]
+\end{frame}
+\begin{frame}{The end}
+    Finally, we get that for all $ x \in E $ 
+\[  |S_{j_{n_k}}(\Phi(x))| \geqslant\frac{1}{2}\sqrt{M_{n_k}}-\frac{1}{2}\ \  \text{for infinitely many}\ n_k  \] 
+and $ M_{n_k} \rightarrow \infty $, then $ \limsup\limits_k |S_{j_{n_k}}(\Phi(x))| = \infty$.\par
+So we finally complete our proof: the partial sums of its Fourier series diverge almost everywhere.
+
+\end{frame}
+
+
+
+
+\section{References}
+
+\begin{frame}{References}
+    \begin{thebibliography}{9}
+        \bibitem{citation_key}
+        Andrey Kolmogorov .(1923)“Une śerie de Fourier-Lebesgue divergente presque partout”. \textit{Fundamenta Mathematicae}, \textbf{Volume 4 }(Issue 1), Page 324-328.
+        \bibitem{citation_key}
+        Elias M. Stein.Fourier analysis an introduction.Publisher :Princeton University Press 2003.
+        \bibitem{citation_key}
+        P. L. Ul’yanov. (1983). Kolmogorov and divergent Fourier series. \textit{Russian Mathematical Surveys}, \textbf{Volume83}(Issue4, 57–100), DOI: 10.1070/RM1983v038n04ABEH004205
+        \bibitem{citation_key}
+        Tooryanand Seetohul (2023). Convergence of Fourier series and Kolmogorov’s theorem. 
+        
+        \end{thebibliography}
+\end{frame}
+
+\begin{frame}
+    \begin{center}
+        {\Huge\calligra Thanks!}
+    \end{center}
+\end{frame}
+
+\end{document}

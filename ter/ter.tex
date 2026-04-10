@@ -1,0 +1,712 @@
+\documentclass{article}
+\usepackage{indentfirst,amsmath,graphicx,algorithm,listings}
+\usepackage[a4paper, total={6in, 8in}]{geometry}
+\usepackage{amssymb}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath, amsthm}
+\usepackage{xcolor}
+
+\usepackage[english]{babel}
+\usepackage{amsthm}
+\usepackage[UTF8]{ctex}
+\usepackage[colorlinks=true, allcolors=blue]{hyperref}
+
+
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{proposition}{Proposition}
+\newtheorem{Proof}{Proposition}
+\newtheorem{remark}{Remark}
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+\newtheorem{fact}{Fact}
+
+
+\title{Convergence and divergence of Fourier series}
+\author{Lewei Zhang\\
+Department of Mathematics\\
+Université Paris-Est Créteil\\
+\texttt{}
+\and
+Supervised by:\\
+Mr.Chenmin Sun\\
+Department of Mathematics\\
+Université Paris-Est Créteil\\
+\texttt{}
+}
+
+
+
+
+
+
+\begin{document}
+\clearpage
+
+\maketitle
+\tableofcontents
+
+\newpage
+
+
+\section*{Acknowledgements}
+I would like to express my gratitude to Mr.Sun，this is our first attempt at writing a mathematical paper, and while our comprehension of mathematics is still developing，we deeply appreciate his encouragement. 
+\par Throughout our weekly meetings, Mr.Sun patiently provided invaluable assistance. His expertise and support played a vital role in our journey.
+
+\newpage
+
+
+\section{Introduction}
+The main goal of this article is to present the paper of Kolmogorov which means the construction of a function  whose partial sums of its fourier series diverge almost everywhere.\par
+We start to  review some basic properties of fourier series in section 2, including the definition of partial sum, Dirichlet kernel, convolution, and the relation beside which will be used later.\par
+In section 3, we introduce a little about the convergence at the beginning as review too, then we try to construct the $ \mathcal{L} ^1 $ function which mentioned before.\par
+Our proof is divided into two parts. The first part involves constructing a sequence of functions that satisfies our expectations conditions, while the second part entails constructing the function we desire.\par
+More details can be found in Section 3.2.
+
+
+
+
+
+
+\section{Basic properties}
+We start from the definition and properties of fourier series.
+
+\begin{definition}%1
+    The fourier series is defined by $ \sum\limits_{-\infty}^{\infty} \hat{f}(n)e^{2\pi inx/L}$
+\end{definition}
+
+\begin{definition}%2
+    The $ N^{th} $ fourier coefficient is given by $ \hat{f}(n) =  \frac{1}{L} \int_{L}f(x)e^{\frac{-2\pi inx}{L}}$
+\end{definition}
+
+\begin{remark}%这个可以补充
+   We also define the trigonometric polynomial by trigonometric series 
+\end{remark}
+
+\begin{definition}%3
+    The partial sum $ S_N(f)(x)=\sum\limits_{-N}^{N}\hat{f}(n)e^{2\pi inx/L} $
+\end{definition}
+
+\begin{definition}%4
+    Dirichlet kernel $ D_N(x)=\sum\limits_{-N}^{N}e^{inx} $.  The kernel functions are periodic with period $ 2\pi $
+\end{definition}
+
+
+
+
+\begin{proposition}%1
+    We can write  Dirichlet kernel as another form:
+    \[  D_N(x)=\sum\limits_{-N}^{N}e^{inx}=\frac{sin(N+\frac{1}{2})x}{\sin(\frac{x}{2})}\]
+\end{proposition}
+\begin{proof}
+    we can separate $ \sum\limits_{-N}^{N}e^{inx} $ into two parts, one is $ \sum\limits_{-N}^{0}e^{inx} $ and $ \sum\limits_{1}^{N}e^{inx} $
+    \[  \sum\limits_{-N}^{0}e^{inx} = \frac{1-\omega^{N+1}}{1-\omega}\]
+    and \[  \sum\limits_{1}^{N}e^{inx}=\frac{\omega^{-N}-1}{1-\omega} \]
+    with $ \omega = e^{ix} $
+    so we got \[ D_N(x)= \frac{1-\omega^{N+1}}{1-\omega} +\frac{\omega^{-N}-1}{1-\omega}= \frac{\omega^{\frac{1}{2}}(\omega^{-N-\frac{1}{2}}-\omega^{N-\frac{1}{2}})}{\omega^{\frac{1}{2}}(\omega^{-\frac{1}{2}}-\omega^{-\frac{1}{2}})}   =  \frac{\sin(N+\frac{1}{2})x}{\sin(\frac{x}{2})} \]
+\end{proof}
+
+\begin{definition}%5
+    Given two $ 2\pi -$periodic integrable functions $ f $ and $ g $, we define their convolution $ f*g $ on $ [-\pi,\pi] $ by 
+    \[ f*g(x)=\frac{1}{2\pi} \int_{-\pi}^{\pi} f(y)g(x-y)dy\]
+    Also, we can change variables:
+    \[ f*g(x)=\frac{1}{2\pi} \int_{-\pi}^{\pi} f(x-y)g(y)dy\]
+\end{definition}
+
+
+\textcolor{olive}{Now we can compose definition 3,4 and 5 :}
+
+
+
+\begin{proposition}\label{proposition}
+    The partial sum of the fourier series of $ f $ can be written as the convolution of $ f $ and Dirichlet kernel $ D_N $
+   \begin{align*}
+    S_N(f)(x)&=\sum\limits_{-N}^{N}\hat{f}(n)e^{inx}\\
+    &=(f*D_N)(x)
+   \end{align*}
+\end{proposition}
+
+\begin{proof}
+    \begin{align*}
+        S_N(f)(x)&=\sum\limits_{-N}^{N}\hat{f}(n)e^{inx}\\
+        &=\sum_{-N}^{N}\left(\frac{1}{2\pi}\int_{-\pi}^{\pi}f(y)e^{-iny}dy\right)e^{inx}\\
+        &=\frac{1}{2\pi}\int_{-\pi}^{\pi}f(y) \left(\sum_{-N}^{N}e^{in(x-y)} \right)dy\\
+        &=(f*D_N)(x)
+       \end{align*}
+\end{proof}
+
+This proposition will be used later.
+\begin{theorem}
+    \textbf{Parseval's theorem} states that if a function $f(x)$ is square-integrable over a finite interval $[-L, L]$, meaning that 
+    \[
+    \int_{-L}^{L} |f(x)|^2 \, dx < \infty 
+    \]
+    then its Fourier series representation converges in mean square to $f(x)$, and the identity holds:
+    \[
+    \frac{1}{2L} \int_{-L}^{L} |f(x)|^2 \, dx = \sum_{n=-\infty}^{\infty} |c_n|^2
+    \]
+    Here, $c_n$ are the Fourier coefficients of $f(x)$, given by:
+    \[
+    c_n = \frac{1}{2L} \int_{-L}^{L} f(x) e^{-i\frac{n\pi}{L}x} \, dx
+    \]
+    
+\end{theorem}
+This theorem essentially establishes a relationship between the energy of a function in the time (or spatial) domain and its frequency domain representation. It's a fundamental result in Fourier analysis.
+%一个小问题，是特拉斯函数是L1函数吗\\
+%这里定义了good kernel，然后我们写一个定理，说明函数与这个好核的卷积的极限等于函数，我们又知道函数的傅立叶级数的部分和可以写成函数与它的dirichl kernel 的卷积，如果Dn是个好核，那么部分和就收敛于f，但是Dn不是好核。
+
+
+
+
+
+
+\newpage
+
+\section{The Convergence of Fourier Series}
+
+\subsection{A little about Convergence }
+\begin{definition}%6
+    A family of good kernels $ {K_n(x)}_{n=1}^{\infty} $ is said to be \textbf{good kernels} if it satisfies :
+    \begin{enumerate}
+        \item For all $ n \geqslant 1  $, \[ \frac{1}{2\pi}\int_{-\pi}^{\pi} K_n(x)=1\]
+        \item There exist $ M \geqslant 0 $ such that for all $ n \geqslant 1 $,\[\int_{-\pi}^{\pi}\left\lvert K_N(x) \right\rvert  dx \leqslant M\]
+        \item For every $ \delta > 0 $ \[ \int_{\delta \leqslant \left\lvert x \right\rvert \leqslant \pi} \left\lvert K_N(x) \right\rvert  dx \rightarrow 0\]
+    \end{enumerate}
+\end{definition}
+\begin{theorem}
+    Let $ {K_n(x)}_{n=1}^{\infty}  $ a family of good kernels, f be an integrable function on the circle, then whenever f is continuous at x,\[ \lim_{n\rightarrow \infty}(f*K_N)(x)=f(x)\]
+    If f is continuous, then convergence is uniform on $ [-\pi,\pi] $
+\end{theorem}
+
+\begin{proof}
+    If $ \varepsilon >0 $ and f is continuous at x, choose $ \delta  $  such that if $|y| < \delta $, then $|f(x − y) − f(x)| < \varepsilon $.\\
+    Using the first property of good kernels, we can write
+    \begin{align*}
+        (f*K_n)(x)-f(x)&=\frac{1}{2\pi}\int_{-\pi}^{\pi}K_n(y)f(x-y)dy-f(x)\\
+        &=\frac{1}{2\pi}\int_{-\pi}^{\pi}K_n(y)[f(x-y)-f(x)]dy
+    \end{align*}
+
+    Taking the absolute value
+
+    \begin{align*}
+        \left\lvert(f*K_n)(x)-f(x)\right\rvert&=\frac{1}{2\pi}\left\lvert \int_{-\pi}^{\pi}K_n(y)[f(x-y)-f(x)]dy \right\rvert\\
+        &\leqslant \int_{|y|<\delta}\left\lvert K_n(y) \right\rvert |f(x-y)-f(x)|dy\\
+        &+\frac{1}{2\pi}\int_{\delta \leqslant |y|\leqslant \pi}\left\lvert K_n(y) \right\rvert |f(x-y)-f(x)|dy\\
+        &\leqslant \frac{\epsilon }{2\pi}\int_{-\pi}^{\pi}\left\lvert K_n(y) \right\rvert dy+\frac{2B}{2\pi}\int_{\delta \leqslant |y|\leqslant \pi}\left\lvert K_n(y) \right\rvert dy
+    \end{align*}
+
+    where B is a bound for $ |f| $. The second property of good kernels shows that
+
+    \[ \frac{\epsilon }{2\pi}\int_{-\pi}^{\pi}\left\lvert K_n(y) \right\rvert dy \leqslant \frac{\epsilon M}{2\pi}\]
+    for all $ n \geqslant 1 $. The third property of good kernels shows that
+    \[ \frac{2B}{2\pi}\int_{\delta \leqslant |y|\leqslant \pi}\left\lvert K_n(y) \right\rvert dy \leqslant \epsilon  \]
+    for all $ n \geqslant N(\delta ) $. Therefore we have
+    \[ | (f*K_n)(x)-f(x)| \leqslant C_{\epsilon }\]
+
+
+
+
+
+    
+\end{proof}
+
+If the Dirichlet kernels were a good family of kernels,then we could develop a sense of convergence from the partial sums of the Fourier series. However, we will see that the family of Dirichlet kernels is not a family of good kernels. In particular, the Dirichlet family of kernels does not satisfy the second property of good kernels.
+
+\begin{proof}
+    We can derive this using the geometric series identity and trigonometric identities, \[D_N(x)=\sum\limits_{-N}^{N}e^{inx}=\frac{sin(N+\frac{1}{2})x}{sin(\frac{x}{2})}\]
+    Now
+     \begin{align*}
+        \int_{-\pi}^{\pi}\left\lvert D_N(x) \right\rvert dx &\geqslant c \int_{-\pi}^{\pi}\frac{\left\lvert sin(N+\frac{1}{2})x \right\rvert}{\left\lvert x \right\rvert}\\
+        &\geqslant c \int_{\pi}^{N\pi}\frac{|sin(x)|}{|x|}dx\\
+        &= c\sum_{k=1}^{N-1}\int_{k\pi}^{(k+1)\pi}\frac{1}{k}\\
+        &\geqslant clog(n)
+    \end{align*}
+    where $c > 0$. This implies that the Dirichlet kernels are not a family of good kernels.
+\end{proof}
+\textcolor{olive}{So we need another definition to state convergence.}
+\par
+\begin{definition}
+    We define the Cesàro mean of the Fourier series by 
+    \[ \sigma_N(f)(x)=\frac{S_0(f)(x)+S_1(f)(x)+\dots S_{N-1}(f)(x)}{N} \]
+\end{definition}
+
+\begin{definition}
+    The $ N^{th}  $ Fejér kernel is defined by 
+    \[ F_N(x)= \frac{D_0(x)+D_1(x)+\dots D_{N-1}(x)}{N}\]
+    Fejér kernel is a good kernel.
+\end{definition}
+
+\begin{theorem}
+    Fejér's theorem states that the Cesàro means of the Fourier series of a function $f(x) $ converge uniformly to $f(x)$ wherever $f(x)$ is continuous.
+\end{theorem}
+
+The proof of this theorem is also very complex, and we will not go into it here.
+
+
+
+
+
+\subsection{Almost everywhere divergence of Fourier series of integrable functions}
+In 1922, at the age of 19 while still an undergraduate student at Moscow State University, Kolmogorov constructed an $ \mathcal{L} ^1 $ function in his paper "Une série de Fourier-Lebesgue divergente presque partout," where the partial sums of its Fourier series diverge almost everywhere. 
+\par
+His proof was very ingenious. We attempted to understand his proof and fill in some details.
+\begin{theorem}
+    There exist a $ \mathcal{L} ^1 $ function who's fourier series diverge almost everywhere. 
+\end{theorem}
+We start to proof this theorem by the construction of a sequence of functions $ \phi _n  \subset  \mathcal{L} ^1[0,2\pi] $ which satisfying the following properties:
+
+
+\begin{enumerate}
+    \item\label{C1}$ \phi_n(x)\geqslant 0 $ and $ \int_{0}^{2\pi}\phi_n(x)dx=2 $
+    \item The partial sum of Fourier series of $ \phi_n(x) $ is bounded
+    \item\label{C3} For every function $ \phi_n(x) $ there exist $ M_n  \in \mathbb{R}  $, a set $ E_n \subset [0,2\pi] $, and $ q_n \in \mathbb{N}  $ such that 
+        \begin{enumerate}
+            \item $ \lim\limits_{n\rightarrow +\infty}M_n = +\infty$
+            \item $ \lim\limits_{n\rightarrow +\infty}\left\lvert E_n \right\rvert = 2 \pi $
+            \item $ \forall x \in E_n, \exists q_n \in \mathbb{N}  $ such that for $ k \leqslant q_n $
+            \[ \left\lvert S_k\phi_n(x)\geqslant M_n \right\rvert \]
+        \end{enumerate}
+\end{enumerate}
+We note $ C(1),C(2),C(3)$ these three properties. \par
+So we now begin to justify the existence of this sequence of functions.
+\subsubsection*{Condition 1 and 2}
+
+
+We take a increasing sequence with odd natural numbers.
+\[ \lambda_1=1 \ \  \lambda_2,\dots,\lambda_n \] 
+
+then we define a sequence of natural numbers $ m_k $ s.t
+\[
+    \begin{cases}
+    m_1=n   \\
+    2m_k+1 =\lambda_k(2n+1) 
+\end{cases} 
+\]
+
+a sequence of real numbers $ A_k $
+\[
+\begin{cases}
+    A_k &=\frac{4\pi k}{2n+1}\quad 1 \leqslant k \leqslant n \\
+    A_n&= 2\pi- \frac{2\pi}{2n+1}
+\end{cases}
+\]
+
+a sequence of interval 
+
+\[ \Delta_k=[A_k-\frac{1}{m_k^2},A_k+\frac{1}{m^2_k}] \]
+
+those interval satisfies :
+
+\begin{enumerate}
+    \item $ \Delta_k$ mutually disjoint
+    \item $ \Delta_k \subset [0,2\pi] $
+\end{enumerate}
+
+Here is the demonstration:\par 
+\begin{proof}
+    \begin{enumerate}
+        \item $ \Delta_k  $ is contained in the ball(which is disjoint) centred at $ A_k $ with radius $ \frac{1}{2}|A_k-A_{k-1}| $
+        \item  we first proof that $ \frac{1}{m_k^2}<\frac{2\pi}{2n+1} $ holds because:
+        \begin{align*}
+            m_k = \frac{\lambda_k(2n+1)}{2} - \frac{1}{2} \Rightarrow m_k^2 &= \frac{[\lambda_k(2n+1)-1]^2}{4} \\
+            &> \frac{[\lambda_k(2n+1)-1]^2}{2\pi} \\
+            &> \frac{2n+1}{2\pi}
+        \end{align*}
+        then we proof $ \Delta_k \subset [0,2\pi] $ 
+
+        \begin{enumerate}
+            \item $ \Delta_k \subset \left[0,+\infty\right) $
+                   \[\frac{1}{m_k^2}\leqslant \frac{2\pi}{2n+1} \Rightarrow A_1-\frac{1}{m_k^2}>\frac{4\pi}{2n+1}-\frac{2\pi}{2n+1}=\frac{2\pi}{2n+1}\overset{n \to \infty}{\longrightarrow}0\]
+            \item $\Delta_k \subset [0,2\pi ]$
+                    \[ A_n +\frac{1}{m_k^2}=\frac{4 n \pi}{2n+1}+\frac{1}{m_k^2}<\frac{4n \pi}{2n+1}+\frac{2\pi}{2n+1}=2\pi \]
+                   
+        \end{enumerate}
+        \end{enumerate}     
+\end{proof}
+
+Then we can define a function:
+
+\begin{align}
+\phi_n(x) =
+\begin{cases}
+    \frac{m_k^2}{n}& \text{if } x\in \Delta_k \quad 1 \leqslant k \leqslant n \\
+    0 & \text{if } x \in [0,2\pi]\backslash \cup_{k=1}^n \Delta_k
+\end{cases}
+\end{align}
+
+we now have 
+
+\begin{enumerate}
+    \item $ \phi_n(x)\geqslant 0 $
+    \item $ \int_{0}^{2\pi}\frac{m_k^2}{n}dx = \sum_{k=1}^{n}\frac{m_k^2}{n}\frac{2}{m_k^2}=2 $
+    \item $\phi_n(x) $ $ 2\pi $ periodic also integrable.
+\end{enumerate}
+
+So condition 1 holds.\par
+Condition 2 is immediate since $ \phi_n(x) $ is a piecewise constant function.\par
+\subsubsection*{Condition 3 }
+
+
+
+Now let's define a sequence of intervals $ {\sigma_k}_{2 \leqslant k \leqslant n} $
+
+\[ \sigma_k=[A_{k-1}+\frac{2}{n^2},A_k-\frac{2}{n^2}] \]
+
+we must prove that $ A_{k-1}+\frac{2}{n^2}\leqslant  A_k-\frac{2}{n^2} $
+
+
+\begin{proof}
+    \[ A_{k-1}+\frac{2}{n^2}=\frac{4\pi}{2n+1}(k-1)+\frac{2}{n^2}=\frac{4k\pi}{2n+1}-\frac{4\pi}{2n+1}+\frac{2}{n^2} \]
+    \[ <\frac{4k\pi}{2n+1}-\frac{2}{n^2}=A_k-\frac{2}{n^2} \]
+\end{proof}
+
+\begin{lemma}
+    
+
+ $ \sigma_k $ is strictly between $ \Delta_{k-1} $  and $ \Delta_k $
+\end{lemma}
+\begin{proof}
+    we want to show that 
+    \[ A_{k-1}+\frac{1}{m^2_{k-1}}<A_{k-1}+\frac{2}{n^2}<A_k-\frac{2}{n^2} <A_k+\frac{1}{m^2_k}\]
+    there are three inequality, we need to proof the first and the last, the last one is trivial cause both $ \frac{2}{n^2} $ and $ \frac{1}{m_k^2} $ are positive. And for the first inequality:
+   
+    \begin{align*}
+    m_k^2 = \frac{[\lambda_k(2n+1)-1]^2}{4} \Rightarrow m_k^2 \geqslant \frac{\lambda_k^2(4n^2)}{4}\Rightarrow m_k^2 \geqslant \frac{n^2}{2}\Rightarrow \frac{1}{m_{k-1}^2} \leqslant \frac{2}{n^2} 
+    \end{align*}
+
+\end{proof}
+
+\begin{lemma}
+    $ \lim\limits_{n\rightarrow \infty} |\cup_{k=1}^n\sigma_k|= 2\pi  $
+\end{lemma}
+
+\begin{proof}
+ \[ |\sigma_k | = A_k-A_{k-1}-\frac{4}{n^2}= \frac{4\pi}{2n+1}-\frac{4}{n^2}\]
+so their union $|\cup_{k=1}^n\sigma_k| = \frac{4\pi n}{2n+1}-\frac{4}{n}$ almost gives the entire interval $ [0,2\pi] $ as $ n $ grows.
+
+\end{proof}
+
+~\\
+\textcolor{olive}{From now on, we try to prove the most difficult part of this paper.}
+
+We first claim two theorem which will be used later:
+
+\begin{theorem}
+    \textbf{Mean Value Theorem} If $f(x)$ is continuous on $[a, b]$ and differentiable on $(a, b)$, then there exists $c$ in $(a, b)$ such that $f'(c) = \frac{f(b) - f(a)}{b - a}$.
+
+\end{theorem}
+\begin{theorem}
+    \textbf{The Riemann-Lebesgue lemma} If $f(x)$ is a bounded and integrable function,then its Fourier transform $F(\xi)$ 
+    \[
+    \lim_{|\xi| \to \infty} F(\xi) = 0
+    \]
+    This can be expressed as:
+
+\[
+\lim_{|\xi| \to \infty} \int_{-\infty}^{\infty} f(x) e^{-i\xi x} \, dx = 0
+\]
+
+    
+\end{theorem}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+~\\
+
+By proposition\ref{proposition} in section 2, we can get that 
+
+
+\begin{align}
+    S_{m_k}(\phi_n)=\frac{1}{2\pi}\int_{0}^{2\pi}\phi_n(\alpha)\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha
+\end{align}
+
+\textbf{A.The choice of $ m_k $}
+
+It is clear to see that 
+
+
+\begin{align*}
+    S_{m_k}(\phi_n)&=\frac{1}{2\pi}\int_{0}^{2\pi}\phi_n(\alpha)\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha\\
+    &=\frac{1}{2\pi}\sum_{s=1}^{k-1}\int_{\Delta_s}\phi_n(\alpha)\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha \\
+    &+ \frac{1}{2\pi}\sum_{s=k}^{n}\int_{\Delta_s}\phi_n(\alpha)\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha \quad \text{by (1)}\\
+    &=I_1+I_2 
+\end{align*}
+
+Then we focus on $ \phi_n^{(s)} $, whose intergal will represent the integral on a segment $ \Delta_s $, we then obtain the equality below:
+%\textcolor{red}{这里，或许我多想了。它就是第i 或者说第s个}
+
+\begin{align*}
+    \frac{1}{2\pi}\int_{\Delta_s}\phi_n(\alpha)\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha 
+    &=\frac{1}{2\pi}\int_{0}^{2\pi}\phi_n^{(s)}\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha\\
+    &= S_{m_k}(\phi_n^{(s)})
+\end{align*}
+\par 
+Assume we have already defined $ \lambda_n $, thus we define $ m_k $, we will discuss the choose of $ m_k $ later.\par 
+After we will estimate $ I_1 $ and $ I_2 $.
+
+Now consider the partial sum $ S_{m_k}(\phi_n^{(s)}) $ where $ x \in \sigma_k $.
+
+\begin{enumerate}
+
+\item $ 1 \leqslant s \leqslant k-1 $\par
+        Notice that, for any $ x \in \sigma_k $ and $ \alpha \in \Delta_s $, $ x $ and $ \alpha $ belong to two disjointed intervals,so we have:
+\[ \exists \epsilon >0 \text{ s.t } |\alpha-x|\geqslant \epsilon \]
+    consequently, \[ \frac{1}{\sin\frac{1}{2}(\alpha-x)} \] is a continuous function of $ \alpha  $, so this function is integrable, by the Riemann-Lebesgue lemma:
+\[\lim_{|m_k|\rightarrow \infty}S_{m_k}(\phi_n^{(s)}) = 0 \] 
+        \begin{proof}
+   $  \phi_n^{(s)}$ is a bounded and integrable function on $ \Delta_s $, so we can get his fourier transform tends to zero by the Riemann-Lebesgue lemma, then the partial sum also tends to zero.
+        \end{proof}
+
+So we can choose that $ m_k $ big enough,which imply $ \lambda_k $ big enough grand to make 
+
+        \[ |I_1|<1 \]
+
+
+\item $ s \geqslant k $
+\begin{align*}
+    \frac{1}{2\pi}\int_{\Delta_s}\frac{m_s^2}{n}\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha 
+    &=\frac{1}{2\pi}\int_{\Delta_s}\frac{m_s^2}{n}\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}\mathrm{d}\alpha - \frac{1}{\pi}\int_{\Delta_s}\frac{m_s^2}{n}\frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)}\mathrm{d}\alpha\\
+    &+\frac{1}{2\pi}\int_{\Delta_s}\frac{m_s^2}{n}\frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)}\mathrm{d}\alpha\\ 
+    &= \frac{1}{2\pi}\int_{\Delta_s}\frac{m_s^2}{n}\left[\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}   - \frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)} \right]\mathrm{d}\alpha \\
+    &+\frac{1}{2\pi}\int_{\Delta_s}\frac{m_s^2}{n}\frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)}\mathrm{d}\alpha\\
+    &=J_1+J_2
+\end{align*}
+
+
+We first focus on $ J_1 $:\par
+\textcolor{olive}{(The following four remarks will be used later)}
+\par
+
+\begin{remark}
+    We can find that 
+    \[ \frac{2m_k+1}{2}(A_s-A_k)=\frac{4\pi(s-k)}{2n+1}\frac{2m_k+1}{2}=2\pi(s-k)\lambda_k \]
+    so that 
+    \[ \sin\frac{2m_k+1}{2}(A_s-x)=\sin\left[\frac{2m_k+1}{2}(A_s-x)-\frac{2m_k+1}{2}(A_s-A_k)\right]\]
+    \[ =\sin\frac{2m_k+1}{2}(A_k-x) \]
+\end{remark}
+
+\begin{remark}
+    \[ |D_N'(x)|=|\sum\limits_{-N}^{N}ine^{inx}| \leqslant |\sum_{n=0}^{N}n| \leqslant N^2\]
+\end{remark}
+\begin{remark}
+    For all $ \alpha \in \Delta_s $, we have $ |A_s-\alpha|\leqslant \frac{1}{m_s^2} $ by the definition of $ \Delta_s $
+\end{remark}
+
+\begin{remark}
+    
+    For all $\ x \in \sigma_k$,we have 
+    \[ 0<A_s-x<A_s-A_{k-1}=\frac{4\pi}{2n+1}(s-k+1)<\frac{2\pi}{n}(s-k+1) \]
+\end{remark}
+
+~\\
+
+
+ By using the mean value theorem, we look 
+
+\[ \frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}   - \frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)}  \]
+
+as the derivative between $ \alpha -x  $ and $ A_s-x $, also, by the remark 3 and 4
+
+\[ | \frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}   - \frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)}| \leqslant |A_s-\alpha||m_k^2| \leqslant \frac{m_k^2}{m_s^2}\leqslant 1\] 
+
+So now we look back at $ J_1 $,
+
+\[ |J_1|\leqslant \frac{1}{2\pi}\int_{\Delta_s}|\frac{m_s^2}{n}\left(\frac{\sin\frac{2m_k+1}{2}(\alpha-x)}{\sin\frac{1}{2}(\alpha-x)}   - \frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)} \right)| \mathrm{d}\alpha  \leqslant \frac{1}{2\pi}\int_{\Delta_s}\frac{m_s^2}{n}\mathrm{d}\alpha\]
+\[\leqslant \frac{1}{2\pi}\frac{m_k^2}{n}\frac{2}{m_k^2}=\frac{\tau}{n}  \quad \text{ with } |\tau|<1\] 
+
+%\textcolor{red}{所以这里可以直接把 $ m_s $换成 $ m_k $}
+
+
+Then $ J_2 $
+
+
+
+
+\begin{align*}
+    J_2= \frac{1}{2\pi}\int_{\Delta_s}\frac{m_s^2}{n}\frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)}\mathrm{d}\alpha&=\frac{1}{2\pi}\frac{\sin\frac{2m_k+1}{2}(A_s-x)}{\sin\frac{1}{2}(A_s-x)}\int_{\Delta_s}\frac{m_s^2}{n}\mathrm{d}\alpha\\
+    &=\frac{1}{2\pi}\frac{2}{n}\sin\left(\frac{2m_k+1}{2}(A_k-x) \right)\frac{1}{\sin\frac{1}{2}(A_s-x)}\\
+    &= \frac{1}{n\pi}\sin\left(\frac{2m_k+1}{2}(A_k-x) \right)\frac{1}{\sin\frac{1}{2}(A_s-x)}\quad  \text{by remark 2}
+\end{align*}
+
+Finally we can look back at $ I_2 $
+\begin{align*}
+    I_2=\sum_{s=k}^{n}(J_1+J_2)=\frac{1}{n\pi}\sin\left(\frac{2m_k+1}{2}(A_k-x) \right)\sum_{s=k}^{n}\frac{1}{\sin\frac{1}{2}(A_s-x)}+C \quad \quad \text{where |C| < 1}
+\end{align*}
+
+by the remark 5 we can find that 
+\[ \frac{1}{n\pi}\sum_{s=k}^{n}\frac{1}{\sin\frac{1}{2}(A_s-x)} \geqslant \frac{1}{n\pi}\sum_{s=k}^{n}\frac{n}{\pi(s-k+1)}=\frac{1}{\pi^2}\sum_{s=k}^{n}\frac{1}{s-k+1} =\frac{1}{\pi^2}\sum_{r=1}^{n-k+1}\frac{1}{r} \geqslant \frac{1}{\pi^2}\ln(n-k+2) \] 
+
+
+so 
+\[ I_2 \geqslant \frac{1}{\pi^2}\sin\left(\frac{2m_k+1}{2}(A_k-x) \right)\ln(n-k+2)-2  \quad \quad \forall x \in \sigma_k, \ \ 2 \leqslant k \leqslant n\] 
+
+\end{enumerate}
+The partial sum equal to $ I_1 +I_2 = I_1+J_1+J_2$ and we have $ I_1 < 1$, and also $J_1 < 1 $, so $ J_2 $ is the main bound.\par
+~\\
+
+\textbf{B.Now we can find $ M_n $, $ q_n $ and the set $ E_n$ }
+ 
+
+
+In the previous demonstration, we got the bound:
+\[| S_{m_k}(\phi_n)|\geqslant \frac{1}{\pi^2}|\sin(m_k +\frac{1}{2})(A_k-x)|\ln(n-k+2) -2 \]
+
+We take $ k \leqslant n - \sqrt{n} $, then
+
+\[  | S_{m_k}(\phi_n)| \geqslant \frac{1}{2\pi^2}|\sin(m_k +\frac{1}{2})(A_k-x)|\ln n-2\]
+
+We set \[ E_n= \bigcup_{2 \leqslant k \leqslant n-\sqrt{n}}E_n^{(k)} \]
+
+where \[E_n^{(k)}=\left\{ x: x \in \sigma_k \ \ \text{ and } \ |\sin(m_k +\frac{1}{2})(A_k-x)| \geqslant \frac{2\pi^2}{\sqrt{\ln n}}\right\}\]
+
+If we choose $ m_k $ large enough 
+
+\[  mes\left\{x: x \in \sigma_k \ \  |\sin(m_k +\frac{1}{2})(A_k-x)| < \frac{2\pi^2}{\sqrt{\ln n}}\right\}=\mathcal{O}(\frac{1}{n\sqrt{\ln n}})\]
+
+so we have 
+
+\[ mes\  E_n^{(k)} = mes \ \sigma_k- \mathcal{O}(\frac{1}{n\sqrt{n}}) \quad \quad as \ \ n \rightarrow \infty\]
+
+Thus 
+
+\[ mes\ E_n= \sum_{2 \leqslant k \leqslant n- \sqrt{n}}mes\ \sigma_k- \mathcal{O}(\frac{1}{\sqrt{\ln n}})  = (\frac{4\pi}{2n+1}-\frac{4}{n^2})(n-\sqrt{n})-\mathcal{O}(\frac{1}{\sqrt{\ln n}})\]
+\[ = 2\pi - \mathbf{o} (1) \]
+
+which imply that 
+
+\[ mes \ E_n=2\pi \ \ \ \ as \  \ n \rightarrow \infty \]
+So finally we obtain 
+\begin{enumerate}
+    \item $ | S_{m_k}(\phi_n)| \geqslant \sqrt{\ln n } -2 = M_n$,  where $ M_n >0 $, $ M_n \rightarrow \infty $ as $ n \rightarrow \infty $
+    \item $q_n=m_n$
+\end{enumerate}
+
+That is the condition 3 we want.\par
+Those three conditions state that there exist a function of bounded variation whose $ \mathcal{L}^1  $ norm is 2 but, at every point of a set whose measure nearly equate to $ 2\pi $, their Fourier sums are arbitrarily large.\par
+
+
+
+\subsubsection*{Existence of an $ \mathcal{L}^1  $  function with a.e divergent series}
+Now we come to the construction of the $ \mathcal{L}^1 $ function whose Fourier series diverges almost everywhere.
+
+%算了不等他了，我自己写。
+
+$ \phi_n $ has already been constructed, so now we define an increasing sequence of natural numbers $ n_k $ such that:
+\begin{enumerate}
+    \item $ \frac{1}{\sqrt{M_{n_k}}}<\frac{1}{2^k} $  $\Rightarrow \sum_{k=1}^{\infty}\frac{1}{\sqrt{M_{n_k}}}< 1 $ 
+    \item If $ B_n = \sup_{N \geqslant 0}|S_N\phi_n(x)|$, then $ \sum_{i=1}^{k-1}B_{n_i}<\frac{1}{2}\sqrt{M_{n_k}} $
+    \item $ 2q_{n_i}+1 \leqslant \frac{\sqrt{M_{n_k}}}{2^k} $ $ \forall i < k  $
+\end{enumerate} 
+\begin{proof}
+
+We can find a sequence satisfy $ 1,2,3 $ cause 
+\begin{enumerate}
+   
+    \item $ M_n \rightarrow \infty $ and the $ \phi_n $ is bounded variation, $ B_n $ finite.
+    \item $ n_s $ are known for all values of $ s  $  less than k.
+    
+    \item if we have already chosen  $ n_1,\dots ,n_{k-1} $, then by taking $ n_k >n_{k-1} $ sufficiently large, we can satisfy 2 and 3, because $  M_n \rightarrow \infty$ as $ n \rightarrow \infty $
+\end{enumerate}
+\end{proof}
+
+Now consider the function series $ \sum_{i=1}^{\infty}\frac{1}{\sqrt{M_{n_i}}}\phi_{n_i} (x)$, from the $ C$(\ref{C1}) of function $ \phi_n $
+\[ \sum_{i=1}^{\infty}\frac{1}{\sqrt{M_{n_i}}}\int_{0}^{2\pi}\phi_{n_i} (x) = \sum_{i=1}^{\infty}\frac{2}{\sqrt{M_{n_i}}}<2\sum_{i=1}^{\infty}\frac{1}{2^k} < 2\]
+from Beppo Levi’s lemma ,this function of series converge almost everywhere on $ [0,2\pi] $ to some function $ \Phi(x) $, so we can define 
+\[ \Phi(x)= \sum_{i=1}^{\infty}\frac{1}{\sqrt{M_{n_i}}}\phi_{n_i} (x)\] which will be the function whose Fourier series diverge almost everywhere.\par
+The partial sum 
+\[ S_N(\Phi(x))=\sum_{-N}^{N}\frac{1}{2\pi}e^{inx}\int_{0}^{2\pi}\Phi(x)e^{-iny}\mathrm{d}y  =\sum_{i=1}^{\infty}\frac{1}{\sqrt{M_{n_i}}}S_N(\phi_{n_i}(x))\]
+\par
+We choose a natural number $ k $ and a point $ x\in E_{n_k} $, and let us consider the Fourier sums corresponding to $ N=N_k $
+\begin{align*}
+    |S_{N_k}(\Phi(x))|&=|\sum_{i<k}\frac{1}{\sqrt{M_{n_i}}}S_{N_k}(\phi_{n_i}(x))+\sum_{i>k}\frac{1}{\sqrt{M_{n_i}}}S_{N_k}(\phi_{n_i}(x))+\frac{1}{\sqrt{M_{n_i}}}S_{N_k}(\phi_{n_i}(x))|\\
+    &=|L_1+L_2+L_3|\\
+    &\geqslant |L_3| -|L_2+L_1|
+\end{align*}
+ 
+by using the condition we just defined:
+\[ |L_1|= \sum_{i<k}\frac{1}{\sqrt{M_{n_i}}}S_{N_k}(\phi_{n_i}(x)) \leqslant \sum_{i<k}\frac{1}{\sqrt{M_{n_i}}}\sup|S_{N_k}\left(\phi_{n_i}\left(x\right)\right)| \leqslant \sum_{i=1}^{k-1}\frac{B_{n_i}}{\sqrt{M_{n_i}}}\]
+\[ <\sum_{i=1}^{k-1}B_{n_i}<\frac{1}{2}\sqrt{M_{n_k}}\]
+
+
+and 
+\[ |L_2|= \sum_{i>k}\frac{1}{\sqrt{M_{n_i}}}|S_{N_k}(\phi_{n_i}(x))|\leqslant \sum_{i>k}\frac{1}{\sqrt{M_{n_i}}}(\frac{1}{2}+q_{n_k})\frac{1}{2\pi}\int_{0}^{2\pi}|\phi_{n_i}(x)|\mathrm{d}x\]
+\[ = \sum_{i>k}\frac{1+2q_{n_k}}{2\sqrt{M_{n_i}}}\frac{1}{\pi}\leqslant \frac{1}{\pi}\sum_{i>k}\frac{1}{2^i}<\sum_{i>k}\frac{1}{2^i}<\frac{1}{2^k}\]
+\par
+also
+\[ |L_3|= \frac{1}{\sqrt{M_{n_i}}}S_{N_k}(\phi_{n_i}(x)) \overset{C(\ref{C3})(c)}{\geqslant } \sqrt{M_{n_k}} \]
+
+Finally we get
+\begin{align*}
+    |S_{N_k}(\Phi(x))| &\geqslant |L_3| -|L_2+L_1|\\
+    &\geqslant \sqrt{M_{n_k}}-\frac{1}{2}\sqrt{M_{n_k}}-\frac{1}{2^k}\\
+    &\geqslant \frac{1}{2}\sqrt{M_{n_k}}-\frac{1}{2}
+\end{align*}
+which holds for all $ x\in E_{n_k} $.\par
+Now let $ E= \limsup\limits_k E_{n_k}  $，which can also be expressed $ E=\bigcap\limits_{j=1}^{\infty} \bigcup\limits\limits_{k=j}^{\infty}  E_{n_k} $, then:
+
+\[ 2\pi \geqslant \bigcup\limits\limits_{k=j}^{\infty}  |E_{n_k}|  \geqslant \lim\limits_l|E_{n_l}| \overset{C(\ref{C3})(b)}{=} 2\pi \Rightarrow \bigcup\limits\limits_{k=j}^{\infty} | E_{n_k}|=2\pi \ \forall k\]
+Because it is a numerable intersection of sets with measure $ 2\pi $, all of them contained in $ [0,2\pi] $\par
+Then 
+\[ |E| = |\bigcap\limits_{j=1}^{\infty} \bigcup\limits\limits_{k=j}^{\infty}  E_{n_k}|=2\pi\]
+
+
+Finally, we get that for all $ x \in E $ 
+\[  |S_{N_k}(\Phi(x))| \geqslant\frac{1}{2}\sqrt{M_{n_k}}-\frac{1}{2} \]
+and $ M_{n_k} \rightarrow \infty $, then $ \limsup\limits_k |S_{N_k}(\Phi(x))| = \infty$.\par
+So we finally complete our proof: the partial sums of its Fourier series diverge almost everywhere.
+
+
+
+
+
+%我们定义的是阶梯函数，区间有n个。
+
+%思路重复一下，我们把部分和拆分成两部分，一部分是I1，另一部分是I2，他们分别对应着n个区间中大于等于k 和小于k的部分，然后我们来观察其中的一项，再求和。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\begin{thebibliography}{9}
+\bibitem{citation_key}
+Andrey Kolmogorov .(1923)“Une śerie de Fourier-Lebesgue divergente presque partout”. \textit{Fundamenta Mathematicae}, \textbf{Volume 4 }(Issue 1), Page 324-328.
+\bibitem{citation_key}
+Elias M. Stein.Fourier analysis an introduction.Publisher :Princeton University Press 2003.
+\bibitem{citation_key}
+P. L. Ul’yanov. (1983). Kolmogorov and divergent Fourier series. \textit{Russian Mathematical Surveys}, \textbf{Volume83}(Issue4, 57–100), DOI: 10.1070/RM1983v038n04ABEH004205
+\bibitem{citation_key}
+Tooryanand Seetohul (2023). Convergence of Fourier series and Kolmogorov’s theorem. 
+
+\end{thebibliography}
+
+\end{document}
